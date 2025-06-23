@@ -1,0 +1,8 @@
+/* Profile component specific styles */
+.table-borderless td {
+  padding: 0.5rem 0;
+}
+
+.badge {
+  font-size: 0.8rem;
+} 

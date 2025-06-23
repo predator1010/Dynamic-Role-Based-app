@@ -1,0 +1,9 @@
+/* Content component specific styles */
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.badge {
+  font-size: 0.75rem;
+} 

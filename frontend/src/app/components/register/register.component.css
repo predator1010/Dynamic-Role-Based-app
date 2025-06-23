@@ -1,0 +1,9 @@
+/* Register component specific styles */
+.card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+} 

@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/dashboard">Role Auth System</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto" *ngIf="isAuthenticated">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+        
+        <!-- Admin only navigation -->
+        <li class="nav-item" *ngIf="hasRole('Admin')">
+          <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+        </li>
+        
+        <li class="nav-item" *ngIf="hasRole('Admin')">
+          <a class="nav-link" routerLink="/roles" routerLinkActive="active">Roles</a>
+        </li>
+        
+        <!-- Editor and Admin navigation -->
+        <li class="nav-item" *ngIf="hasPermission('write')">
+          <a class="nav-link" routerLink="/content" routerLinkActive="active">Content</a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav" *ngIf="isAuthenticated">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            {{ currentUser?.fullName }}
+            <span class="badge ms-1" 
+                  [ngClass]="{
+                    'badge-admin': currentUser?.role?.name === 'Admin',
+                    'badge-editor': currentUser?.role?.name === 'Editor',
+                    'badge-viewer': currentUser?.role?.name === 'Viewer'
+                  }">
+              {{ currentUser?.role?.name }}
+            </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container mt-4">
+  <router-outlet></router-outlet>
+</main> 

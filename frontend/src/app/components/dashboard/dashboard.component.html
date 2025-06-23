@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4>Welcome, {{ currentUser?.fullName }}!</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>User Information</h5>
+            <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+            <p><strong>Role:</strong> 
+              <span class="badge" 
+                    [ngClass]="{
+                      'badge-admin': currentUser?.role?.name === 'Admin',
+                      'badge-editor': currentUser?.role?.name === 'Editor',
+                      'badge-viewer': currentUser?.role?.name === 'Viewer'
+                    }">
+                {{ currentUser?.role?.name }}
+              </span>
+            </p>
+            <p><strong>Permissions:</strong></p>
+            <ul>
+              <li *ngFor="let permission of currentUser?.role?.permissions">
+                {{ permission }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h5>Role Description</h5>
+            <p>{{ currentUser?.role?.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Role-based content sections -->
+<div class="row">
+  <!-- Admin Section -->
+  <div class="col-md-6 mb-4" *ngIf="hasRole('Admin')">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5>Admin Panel</h5>
+      </div>
+      <div class="card-body">
+        <p>As an Admin, you have full access to all features:</p>
+        <ul>
+          <li>Manage users and their roles</li>
+          <li>Create and modify roles</li>
+          <li>View all content</li>
+          <li>Edit and delete content</li>
+        </ul>
+        <div class="d-grid gap-2">
+          <a routerLink="/users" class="btn btn-primary">Manage Users</a>
+          <a routerLink="/roles" class="btn btn-success">Manage Roles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editor Section -->
+  <div class="col-md-6 mb-4" *ngIf="hasPermission('write')">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5>Editor Panel</h5>
+      </div>
+      <div class="card-body">
+        <p>As an Editor, you can:</p>
+        <ul>
+          <li>View all content</li>
+          <li>Edit and create content</li>
+          <li>Cannot manage users or roles</li>
+        </ul>
+        <div class="d-grid">
+          <a routerLink="/content" class="btn btn-primary">Manage Content</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Viewer Section -->
+  <div class="col-md-6 mb-4" *ngIf="hasPermission('read') && !hasPermission('write')">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5>Viewer Panel</h5>
+      </div>
+      <div class="card-body">
+        <p>As a Viewer, you can:</p>
+        <ul>
+          <li>View content only</li>
+          <li>Cannot edit or manage anything</li>
+        </ul>
+        <div class="d-grid">
+          <a routerLink="/content" class="btn btn-outline-primary">View Content</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5>Quick Actions</h5>
+      </div>
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          <a routerLink="/profile" class="btn btn-outline-secondary">View Profile</a>
+          <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
