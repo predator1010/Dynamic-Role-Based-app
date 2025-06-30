@@ -1,14 +1,13 @@
-const express = require('express');
-const { body } = require('express-validator');
-const router = express.Router();
-const { protect, authorize } = require('../middleware/auth');
-const {
+import express from 'express';
+import { body } from 'express-validator';
+import { protect, authorize } from '../middleware/auth.js';
+import {
   getRoles,
   createRole,
   updateRole,
   deleteRole,
   getRoleById
-} = require('../controllers/roleController');
+} from '../controllers/roleController.js';
 
 // Validation middleware
 const roleValidation = [
@@ -25,6 +24,8 @@ const roleValidation = [
     .withMessage('Permissions must be an array')
 ];
 
+const router = express.Router();
+
 // Public route - anyone can view roles
 router.get('/', getRoles);
 
@@ -37,4 +38,4 @@ router.get('/:id', authorize('Admin'), getRoleById);
 router.put('/:id', authorize('Admin'), roleValidation, updateRole);
 router.delete('/:id', authorize('Admin'), deleteRole);
 
-module.exports = router; 
+export default router; 

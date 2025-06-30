@@ -179,3 +179,22 @@ The frontend will run on `http://localhost:4200`
 - **Code Comments**: Well-documented code
 - **Best Practices**: Following Angular and Node.js best practices "# Dynamic-Role-Based-app" 
 "# Dynamic-Role-Based-app" 
+
+export interface Patient {
+  _id?: string;
+  fullName: string;
+  dateOfBirth: string;
+  nationalId: string;
+  gender: string;
+  address: {
+    region: string;
+    villageTown: string;
+  };
+  phoneNumber: string;
+  emergencyContact: string;
+  bloodGroup: string;
+  knownMedicalConditions?: string;
+  assignedDoctor: string;
+  admissionDate: string;
+  dischargeDate?: string;
+} 

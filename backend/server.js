@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const connectDB = require('./config/database');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectDB from './config/database.js';
 
 // Load environment variables
 dotenv.config();
@@ -22,9 +22,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/roles', require('./routes/roles'));
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import roleRoutes from './routes/roles.js';
+import patientRoutes from './routes/patients.js';
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/roles', roleRoutes);
+app.use('/api/patients', patientRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

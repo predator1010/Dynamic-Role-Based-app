@@ -1,5 +1,6 @@
-const { validationResult } = require('express-validator');
-const Role = require('../models/Role');
+import { validationResult } from 'express-validator';
+import Role from '../models/Role.js';
+import User from '../models/User.js';
 
 // @desc    Get all roles
 // @route   GET /api/roles
@@ -87,7 +88,6 @@ const deleteRole = async (req, res) => {
     }
 
     // Check if role is being used by any users
-    const User = require('../models/User');
     const usersWithRole = await User.findOne({ role: role._id });
     
     if (usersWithRole) {
@@ -122,7 +122,7 @@ const getRoleById = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getRoles,
   createRole,
   updateRole,

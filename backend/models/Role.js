@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const roleSchema = new mongoose.Schema({
   name: {
@@ -54,4 +54,4 @@ roleSchema.statics.initializeRoles = async function() {
   }
 };
 
-module.exports = mongoose.model('Role', roleSchema); 
+export default mongoose.model('Role', roleSchema); 

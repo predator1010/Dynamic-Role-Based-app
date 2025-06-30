@@ -1,0 +1,116 @@
+<div *ngIf="message" class="alert alert-success">{{ message }}</div>
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="patient-form">
+  <div>
+    <label>Full Name</label>
+    <input formControlName="fullName" />
+    <div *ngIf="patientForm.get('fullName')?.invalid && patientForm.get('fullName')?.touched">Full Name is required.</div>
+  </div>
+  <div>
+    <label>Date of Birth</label>
+    <input type="date" formControlName="dateOfBirth" />
+    <div *ngIf="patientForm.get('dateOfBirth')?.invalid && patientForm.get('dateOfBirth')?.touched">Date of Birth is required.</div>
+  </div>
+  <div>
+    <label>National ID / NHIS Number</label>
+    <input formControlName="nationalId" />
+    <div *ngIf="patientForm.get('nationalId')?.invalid && patientForm.get('nationalId')?.touched">National ID is required.</div>
+  </div>
+  <div>
+    <label>Gender</label>
+    <select formControlName="gender">
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched">Gender is required.</div>
+  </div>
+  <div formGroupName="address">
+    <label>Region</label>
+    <input formControlName="region" />
+    <div *ngIf="patientForm.get('address.region')?.invalid && patientForm.get('address.region')?.touched">Region is required.</div>
+    <label>Village/Town</label>
+    <input formControlName="villageTown" />
+    <div *ngIf="patientForm.get('address.villageTown')?.invalid && patientForm.get('address.villageTown')?.touched">Village/Town is required.</div>
+  </div>
+  <div>
+    <label>Phone Number</label>
+    <input formControlName="phoneNumber" />
+    <div *ngIf="patientForm.get('phoneNumber')?.invalid && patientForm.get('phoneNumber')?.touched">Phone Number is required.</div>
+  </div>
+  <div>
+    <label>Emergency Contact</label>
+    <input formControlName="emergencyContact" />
+    <div *ngIf="patientForm.get('emergencyContact')?.invalid && patientForm.get('emergencyContact')?.touched">Emergency Contact is required.</div>
+  </div>
+  <div>
+    <label>Blood Group</label>
+    <select formControlName="bloodGroup">
+      <option value="">Select</option>
+      <option *ngFor="let bg of ['A+','A-','B+','B-','AB+','AB-','O+','O-']" [value]="bg">{{ bg }}</option>
+    </select>
+    <div *ngIf="patientForm.get('bloodGroup')?.invalid && patientForm.get('bloodGroup')?.touched">Blood Group is required.</div>
+  </div>
+  <div>
+    <label>Known Medical Conditions</label>
+    <input formControlName="knownMedicalConditions" />
+  </div>
+  <div>
+    <label>Assigned Doctor</label>
+    <input formControlName="assignedDoctor" />
+    <div *ngIf="patientForm.get('assignedDoctor')?.invalid && patientForm.get('assignedDoctor')?.touched">Assigned Doctor is required.</div>
+  </div>
+  <div>
+    <label>Admission Date</label>
+    <input type="date" formControlName="admissionDate" />
+    <div *ngIf="patientForm.get('admissionDate')?.invalid && patientForm.get('admissionDate')?.touched">Admission Date is required.</div>
+  </div>
+  <div>
+    <label>Discharge Date</label>
+    <input type="date" formControlName="dischargeDate" />
+  </div>
+  <div *ngIf="canEditOrDelete()">
+    <button type="submit" [disabled]="patientForm.invalid">{{ editing ? 'Update' : 'Create' }} Patient</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editing">Cancel</button>
+  </div>
+</form>
+
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>DOB</th>
+      <th>National ID</th>
+      <th>Gender</th>
+      <th>Region</th>
+      <th>Village/Town</th>
+      <th>Phone</th>
+      <th>Doctor</th>
+      <th>Admission</th>
+      <th>Discharge</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let patient of patients">
+      <td>{{ patient.fullName }}</td>
+      <td>{{ patient.dateOfBirth | date }}</td>
+      <td>{{ patient.nationalId }}</td>
+      <td>{{ patient.gender }}</td>
+      <td>{{ patient.address.region }}</td>
+      <td>{{ patient.address.villageTown }}</td>
+      <td>{{ patient.phoneNumber }}</td>
+      <td>{{ patient.assignedDoctor }}</td>
+      <td>{{ patient.admissionDate | date }}</td>
+      <td>{{ patient.dischargeDate | date }}</td>
+      <td>
+        <button (click)="editPatient(patient)" *ngIf="canEditOrDelete()">Edit</button>
+        <button (click)="deletePatient(patient._id!)" *ngIf="canEditOrDelete()">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table> 

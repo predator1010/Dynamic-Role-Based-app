@@ -1,6 +1,6 @@
-const { validationResult } = require('express-validator');
-const User = require('../models/User');
-const Role = require('../models/Role');
+import { validationResult } from 'express-validator';
+import User from '../models/User.js';
+import Role from '../models/Role.js';
 
 // @desc    Get all users
 // @route   GET /api/users
@@ -94,7 +94,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getUsers,
   updateUserRole,
   getUserById,
